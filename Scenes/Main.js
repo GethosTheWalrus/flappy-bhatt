@@ -8,6 +8,7 @@ class Main extends Phaser.Scene {
         this.load.image('pipe', 'assets/pipe.png');
         this.load.image('bhatt', 'assets/bhatt.png');
         this.load.image('background', 'assets/background.png');
+        this.load.image('ground', 'assets/ground.png');
 
         score = 0;
     }
@@ -17,6 +18,12 @@ class Main extends Phaser.Scene {
         
         this.background = this.add.tileSprite(0, 0, 400, 490, 'background');
         this.background.setOrigin(0, 0);
+
+        this.ground = this.physics.add.sprite(0, 460, 'ground');
+        this.ground.displayWidth = 400;
+        this.ground.displayHeight = 100;
+        this.ground.setOrigin(0, 0);
+        this.ground.body.immovable = true;
 
         // Display the bird at the position x=100 and y=245
         this.bird = this.physics.add.sprite(100, 245, 'bhatt');
@@ -44,8 +51,13 @@ class Main extends Phaser.Scene {
         // this.physics.add.collider(this.bird, this.pipes)
         // this.physics.add.collider(this.bird, this.holes)
 
+        this.physics.add.collider(this.bird, this.ground);
+
         this.physics.add.overlap(this.bird, this.pipes, this.hitPipe, null, this);
         this.physics.add.overlap(this.bird, this.holes, this.passThroughHole, null, this);
+
+        // restart the game when you hit the ground
+        this.physics.add.overlap(this.bird, this.ground, this.gameOver, null, this);
 
     }
 
@@ -61,7 +73,7 @@ class Main extends Phaser.Scene {
 
         // bounds checking
         if (this.bird.y < 0 || this.bird.y > 490)
-            this.goToMenu();
+            this.bird.alive = false;
 
         // bob effect
         if (this.bird.angle < 20)
@@ -155,6 +167,17 @@ class Main extends Phaser.Scene {
     goToMenu() {
 
         this.scene.start('Menu');
+
+    }
+
+    gameOver() {
+
+        self = this;
+        setTimeout(function() {
+
+           self.goToMenu(); 
+
+        }, 2000);
 
     }
 
