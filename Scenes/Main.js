@@ -22,7 +22,7 @@ class Main extends Phaser.Scene {
         this.bird = this.physics.add.sprite(100, 245, 'bhatt');
         this.bird.setOrigin(-0.2, 0.5);
         this.bird.alive = true;
-        this.bird.body.setCircle(30);
+        this.bird.body.setCircle(28);
 
         // Add gravity to the bird to make it fall
         this.bird.body.gravity.y = 1000;
