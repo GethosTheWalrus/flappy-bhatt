@@ -9,6 +9,7 @@ class Menu extends Phaser.Scene {
     }
 
     create() {
+        console.log("start menu");
 
         this.background = this.add.tileSprite(0, 0, 400, 490, 'background');
         this.background.setOrigin(0, 0);
@@ -29,6 +30,14 @@ class Menu extends Phaser.Scene {
         this.labelMenu = this.add.text(75, 50, text, style);
 
         this.spaceKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+
+        this.spaceKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+
+        this.input.on('pointerdown', function (pointer) {
+
+            this.startGame();
+    
+        }, this);
 
         this.trillBird();
 
